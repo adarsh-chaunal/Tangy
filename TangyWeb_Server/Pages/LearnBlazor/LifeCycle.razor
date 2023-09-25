@@ -1,0 +1,72 @@
+﻿@page "/learnBlazor/lifCycle"
+
+<h3>LifeCycle</h3>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<div class="border">
+    <LifeCycleComponent CountVal="@currentCount"></LifeCycleComponent>
+</div>
+
+
+<hr />
+@foreach(var item in EventType)
+{
+    <p>@item</p>
+    <hr />
+}
+
+
+@code {
+    List<string> EventType = new List<string>();
+
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    protected override void OnInitialized(){
+        EventType.Add("Component is initialized");
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        EventType.Add("Component is initialized with async");
+        await Task.Delay(1000);
+    }
+
+    protected override void OnParametersSet()
+    {
+        EventType.Add("Component parameter is set");
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        EventType.Add("Component parameter is set with async");
+        await Task.Delay(1000);
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        // if (firstRender)
+        // {
+        //     currentCount = 111;
+        // }
+        // else
+        // {
+        //     currentCount = 999;
+        // }
+        EventType.Add("Component is rendered");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        EventType.Add("Component is rendered with async");
+        // await Task.Delay(1000);
+    }
+    protected override bool ShouldRender()
+    {
+        EventType.Add("Component should rendered");
+        return true;
+    }
+}

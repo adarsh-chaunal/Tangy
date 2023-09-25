@@ -1,0 +1,36 @@
+﻿<h3>LifeCycleComponent</h3>
+
+<hr />
+@foreach (var item in EventType)
+{
+    <p>@item</p>
+    <hr />
+}
+
+
+@code {
+    [Parameter]
+    public int countVal { get; set; } 
+    List<string> EventType = new List<string>();
+    
+
+    protected override void OnInitialized()
+    {
+        EventType.Add("Child - Component is initialized");
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        EventType.Add("Child - Component is initialized with async");
+        await Task.Delay(1000);
+    }
+    protected override void OnParametersSet()
+    {
+        EventType.Add("Child - Component parameter is set");
+    }
+    protected override bool ShouldRender()
+    {
+        EventType.Add("Component should rendered");
+        return true;
+    }
+
+}
