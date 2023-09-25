@@ -1,0 +1,69 @@
+﻿@page "/learnBlazor/demoProd"
+<h2 class="text-primary">Demo Product</h2>
+<p>Favorite Total: @SelectedFavoriteCount </p> 
+<p>Last Selected Product: @LastSelectedProductName</p>
+
+<div class="border p-2 mt-2" style="background-color:azure">
+	<div class="row">
+		@foreach (var prop in Products)
+		{
+			<_IndividualProduct prop = "@prop" OnFavoriteUpdated="FavoriteCountUpdate" OnLastSelectedProductName="SelectedProductUpdate"></_IndividualProduct>
+		}
+	</div>
+
+
+</div>
+
+@code {
+	List<Demo_Product> Products = new();
+	private int SelectedFavoriteCount { get; set; } = 0;
+	private string LastSelectedProductName { get; set; }
+
+	protected override void OnInitialized()
+	{
+		Products.Add(new()
+			{
+				Id = 1,
+				Name = "Midnight Blaze",
+				Price = 49.99,
+				IsActive = false,
+				ProductProperties = new List<Demo_ProductProp>()
+					{
+					new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose"},
+						 new Demo_ProductProp { Id = 2, Key = "Size", Value = "20oz"},
+						new Demo_ProductProp { Id = 3, Key = "Color", Value="Purple" }
+					}
+			});
+
+		Products.Add(new()
+			{
+				Id = 2,
+				Name = "Blossom Lily",
+				Price = 99.99,
+				IsActive = true,
+				ProductProperties = new List<Demo_ProductProp>()
+				{
+					new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
+					new Demo_ProductProp { Id = 2, Key = "Size", Value = "18oz" },
+					new Demo_ProductProp {Id = 3,Key = "Color",Value = "White"}
+				}
+			});
+	}
+
+	protected void FavoriteCountUpdate(bool isSelected)
+	{
+		if (isSelected)
+		{
+			SelectedFavoriteCount++;
+		}
+		else
+		{
+			SelectedFavoriteCount--;
+		}
+	}
+
+	protected void SelectedProductUpdate(string productName)
+	{
+		LastSelectedProductName = productName;
+	}
+}
