@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TangyWeb_Client", "TangyWeb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tangy_Models", "Tangy_Models\Tangy_Models.csproj", "{7CEE2328-A23A-4BE7-95C5-D51F1564F76C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tangy_DataAccess", "TangyWeb_DataAccess\Tangy_DataAccess.csproj", "{219F576F-5845-490D-8071-8178AB38F84F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tangy_DataAccess", "TangyWeb_DataAccess\Tangy_DataAccess.csproj", "{219F576F-5845-490D-8071-8178AB38F84F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tangy_Business", "TangyWeb_Business\Tangy_Business.csproj", "{A526ED9A-068B-433E-A36C-E6C501867271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tangy_Business", "TangyWeb_Business\Tangy_Business.csproj", "{A526ED9A-068B-433E-A36C-E6C501867271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tangy_Common", "Tangy_Common\Tangy_Common.csproj", "{97516547-9790-40B5-8B17-52D815206645}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tangy_Common", "Tangy_Common\Tangy_Common.csproj", "{97516547-9790-40B5-8B17-52D815206645}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

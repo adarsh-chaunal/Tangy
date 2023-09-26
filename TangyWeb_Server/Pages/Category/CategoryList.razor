@@ -1,0 +1,84 @@
+﻿@page "/category"
+@inject ICategoryRepository _categoryRepository
+@inject IJSRuntime _jsRuntime
+
+<_DeleteConfirmation ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmation>
+<div class="row mt-4">
+	<div class="col-6">
+		<h4 class="cardcard-title text-primary">Category List</h4>
+	</div>
+	<div class="col-2 offset-2">
+		<a href="category/create" class="btn btn-primary form-control">Add New Category</a>
+	</div>
+</div>
+<div class="col-6">
+	@if (Categories.Any())
+	{
+			<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach(var catObj in Categories)
+				{
+					<tr>
+						<td>@catObj.Name</td>
+						<td>
+							<NavLink href="@($"category/edit/{catObj.Id}")" class="btn btn-primary mx-1">Edit</NavLink>
+							<button class="btn btn-danger" @onclick="()=>HandleDelete(catObj.Id)">Delete</button>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+	else
+	{
+		if(IsLoading)
+		{
+			<div class="text-center">
+				<img src="/images/loader.gif">
+			</div>
+		}
+		else
+		{
+			<p>No record found</p>
+		}
+	}
+</div>
+
+@code {
+	private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
+	private bool IsLoading { get; set; } = true;
+	private int DeleteCategoryId { get; set; } = 0;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Run(LoadCategories);
+	}
+	private void LoadCategories()
+	{
+		Categories = _categoryRepository.GetAll();
+		IsLoading = false;
+	}
+
+	private void HandleDelete(int id)
+	{
+		DeleteCategoryId = id;
+		_jsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModel");
+	}
+	public async Task ConfirmDelete_Click(bool isConfirmed)
+	{
+		if(isConfirmed && DeleteCategoryId != 0)
+		{
+			// delete
+			_categoryRepository.Delete(DeleteCategoryId);
+			LoadCategories();
+			_jsRuntime.InvokeVoidAsync("HideDeleteConfirmationModel");
+
+		}
+	}
+}

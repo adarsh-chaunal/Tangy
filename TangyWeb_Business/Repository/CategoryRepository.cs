@@ -63,6 +63,7 @@ namespace Tangy_Business.Repository
             {  
                 obj.Name = objDTO.Name;
                 _db.Categories.Update(obj);
+                _db.SaveChanges();
                 return _mapper.Map<Category,CategoryDTO>(obj);
             }
             return objDTO;
