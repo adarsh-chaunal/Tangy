@@ -1,34 +1,46 @@
-﻿@page "/category"
-@inject ICategoryRepository _categoryRepository
+﻿@page "/product"
+@inject IProductRepository _productRepository
 @inject IJSRuntime _jsRuntime
 
 <_DeleteConfirmation ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmation>
 <div class="row mt-4">
 	<div class="col-6">
-		<h4 class="cardcard-title text-primary">Category List</h4>
+		<h4 class="cardcard-title text-primary">Product List</h4>
 	</div>
 	<div class="col-2 offset-2">
-		<a href="category/create" class="btn btn-primary form-control">Add New Category</a>
+		<a href="product/create" class="btn btn-primary form-control">Add New Product</a>
 	</div>
 </div>
 <div class="col-6">
-	@if (Categories.Any())
+	@if (Products.Any())
 	{
 			<table class="table table-bordered">
 			<thead>
 				<tr>
 					<th>Name</th>
+					<th>Shop Favorites</th>
+					<th>Customer Favorites</th>
+					<th>Category</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
-				@foreach(var catObj in Categories)
+				@foreach(var prod in Products)
 				{
 					<tr>
-						<td>@catObj.Name</td>
+						<td>@prod.Name</td>
 						<td>
-							<NavLink href="@($"category/edit/{catObj.Id}")" class="btn btn-primary mx-1">Edit</NavLink>
-							<button class="btn btn-danger" @onclick="()=>HandleDelete(catObj.Id)">Delete</button>
+							<input type="checkbox" disabled checked="@prod.ShopFavorites">
+						</td>
+						<td>
+							<input type="checkbox" disabled checked="@prod.CustomerFavorites">
+						</td>
+						<td>
+							@prod.Category.Name
+						</td>
+						<td>
+							<NavLink href="@($"product/edit/{prod.Id}")" class="btn btn-primary mx-1">Edit</NavLink>
+							<button class="btn btn-danger" @onclick="()=>HandleDelete(prod.Id)">Delete</button>
 						</td>
 					</tr>
 				}
@@ -51,9 +63,9 @@
 </div>
 
 @code {
-	private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
+	private IEnumerable<ProductDTO> Products { get; set; } = new List<ProductDTO>();
 	private bool IsLoading { get; set; }
-	private int DeleteCategoryId { get; set; } = 0;
+	private int DeleteProductId { get; set; } = 0;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender) // if we use on initialized, there will be some delay in that case
 	{
@@ -67,22 +79,22 @@
 	{
 		IsLoading = true;
 		StateHasChanged();
-		Categories = await _categoryRepository.GetAll();
+		Products = await _productRepository.GetAll();
 		IsLoading = false;
 		StateHasChanged(); // invoke state has changed. this will notify the application that the state has changed and need to do some rendering
 	}
 
 	private async Task HandleDelete(int id)
 	{
-		DeleteCategoryId = id;
+		DeleteProductId = id;
 		await _jsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
 	}
 	public async Task ConfirmDelete_Click(bool isConfirmed)
 	{
-		if(isConfirmed && DeleteCategoryId != 0)
+		if(isConfirmed && DeleteProductId != 0)
 		{
 			// delete
-			await _categoryRepository.Delete(DeleteCategoryId);
+			await _productRepository.Delete(DeleteProductId);
 			await LoadCategories();
 			await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
 
