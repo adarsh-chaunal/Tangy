@@ -22,18 +22,19 @@ public class FileUpload : IFileUpload
 
     public async Task<string> UploadFile(IBrowserFile file)
     {
-        FileInfo fileInfo = new FileInfo(file.Name);
+        FileInfo fileInfo = new(file.Name);
         var fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
         var folderDirectory = $"{_webHostEnvironment.WebRootPath}\\images\\product";
-        if(!Directory.Exists(folderDirectory))
+        if (!Directory.Exists(folderDirectory))
         {
             Directory.CreateDirectory(folderDirectory);
-        }var filePath = Path.Combine(folderDirectory, fileName);
+        }
+        var filePath = Path.Combine(folderDirectory, fileName);
 
         await using FileStream fs = new FileStream(filePath, FileMode.Create);
         await file.OpenReadStream().CopyToAsync(fs);
 
-        var fillPath = $"/images/product/{fileName}";
-        return filePath;
+        var fullPath = $"/images/product/{fileName}";
+        return fullPath;
     }
 }

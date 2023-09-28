@@ -25,7 +25,7 @@ namespace Tangy_Business.Repository
         }
         public async Task<ProductDTO> Create(ProductDTO objDTO)
         {
-            if (objDTO.Name == null)
+            if (objDTO.Name != null)
             {
                 var product = _mapper.Map<ProductDTO, Product>(objDTO);
                 var addProduct = _db.Products.Add(product);
