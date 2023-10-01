@@ -12,7 +12,7 @@
 		<a href="product/create" class="btn btn-primary form-control">Add New Product</a>
 	</div>
 </div>
-<div class="col-6">
+<div class="col-10">
 	@if (Products.Any())
 	{
 			<table class="table table-bordered">
@@ -41,6 +41,7 @@
 						</td>
 						<td>
 							<NavLink href="@($"product/edit/{prod.Id}")" class="btn btn-primary mx-1">Edit</NavLink>
+							<NavLink href="@($"product/productprice/{prod.Id}")" class="btn btn-success mx-1">Price</NavLink>
 							<button class="btn btn-danger" @onclick="()=>HandleDelete(prod.Id)">Delete</button>
 						</td>
 					</tr>

@@ -25,7 +25,7 @@ namespace Tangy_Business.Repository
         }
         public async Task<ProductDTO> Create(ProductDTO objDTO)
         {
-            if (objDTO.Name != null)
+            if (objDTO.Name != null) //// check if .Name is necessery here
             {
                 var product = _mapper.Map<ProductDTO, Product>(objDTO);
                 var addProduct = _db.Products.Add(product);
@@ -33,7 +33,7 @@ namespace Tangy_Business.Repository
                 return _mapper.Map<Product, ProductDTO>(addProduct.Entity);
             }
             return objDTO;
-            
+                    
         }
         public async Task<int> Delete(int id)
         {

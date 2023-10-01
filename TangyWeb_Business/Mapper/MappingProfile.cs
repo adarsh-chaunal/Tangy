@@ -15,8 +15,7 @@ namespace Tangy_Business.Mapper
         {
             CreateMap<CategoryDTO, Category>().ReverseMap();
             CreateMap<ProductDTO, Product>().ReverseMap();
-            //CreateMap<Category,CategoryDTO>();
-
+            CreateMap<ProductPriceDTO, ProductPrice>().ReverseMap();
         }
     }
 }
