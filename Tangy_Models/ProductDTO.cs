@@ -21,4 +21,5 @@ public class ProductDTO
     [Range(1, int.MaxValue,ErrorMessage ="Select a product")]
     public int CategoryId { get; set; }
     public CategoryDTO Category { get; set; } // Navigation property
+    public ICollection<ProductPriceDTO> ProductPrice { get; set; }
 }
