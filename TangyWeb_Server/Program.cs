@@ -9,6 +9,7 @@ using Tangy_Business.Repository;
 using TangyWeb_Server.Service;
 using TangyWeb_Server.Service.IService;
 using Syncfusion.Blazor;
+using Microsoft.AspNetCore.Identity;
 
 
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjczMDU1NkAzMjMzMmUzMDJlMzBHb29MMWw0bW5oQ0lidDlzRHkxejhJSVRvSWFMUXkxVFJ6VmxKeHFPQkhnPQ==");
@@ -21,6 +22,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
