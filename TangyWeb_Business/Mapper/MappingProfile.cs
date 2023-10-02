@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tangy_DataAccess;
 using Tangy_Models;
+using Tangy_Models.ViewModel;
 
 namespace Tangy_Business.Mapper
 {
@@ -16,6 +17,9 @@ namespace Tangy_Business.Mapper
             CreateMap<CategoryDTO, Category>().ReverseMap();
             CreateMap<ProductDTO, Product>().ReverseMap();
             CreateMap<ProductPriceDTO, ProductPrice>().ReverseMap();
+            CreateMap<OrderHeaderDTO, OrderHeader>().ReverseMap();
+            CreateMap<OrderDetailDTO, OrderDetail>().ReverseMap();
+            CreateMap<OrderDTO, Order>().ReverseMap();
         }
     }
 }

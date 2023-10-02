@@ -5,18 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tangy_Models;
 
 namespace Tangy_DataAccess;
-public class OrderDetail
+public class OrderDetailDTO
 {
     public int Id { get; set; }
     [Required]
     public int OrderHeaderId { get; set; }
     [Required]
     public int ProductId { get; set; }
-    [ForeignKey("ProductId")]
-    [NotMapped]
-    public virtual Product Product { get; set; }
+    public ProductDTO Product { get; set; }
     [Required]
     public int Count { get; set;}
     [Required]
