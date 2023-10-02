@@ -1,10 +1,12 @@
 ﻿@page "/details/{ProductId:int}"
 @using TangyWeb_Client.ViewModel;
 @inject IProductService _productService
+@inject ICartService _cartService
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
 
 @if (IsProcessing)
 {
-
 <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
 	<img src="images/ajax-loader.gif" />
 	</div>
@@ -110,5 +112,17 @@ else
 	{
 		DetailsVM.ProductPrice = Product.ProductPrice.FirstOrDefault(u => u.Id == ProductId);
 		DetailsVM.SelectedProductPriceId = productPriceId;
+	}
+	private async Task AddToCart()
+	{
+		ShoppingCart shoppingCart = new()
+			{
+				Count = DetailsVM.Count,
+				ProductId = ProductId,
+				ProductPriceId = DetailsVM.SelectedProductPriceId
+			};
+		await _cartService.IncrementCart(shoppingCart);
+		_navigationManager.NavigateTo("/");
+		//await _jsRuntime.ToastrSuccess("Product added to cart successfully");
 	}
 }
