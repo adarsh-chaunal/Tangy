@@ -2,6 +2,8 @@
 @inject IProductRepository _productRepository
 @inject IJSRuntime _jsRuntime
 @inject IFileUpload _fileUpload
+@inject NavigationManager _navigationManager
+@*@attribute [Authorize]*@
 
 <_DeleteConfirmation ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmation>
 <div class="row mt-4">
@@ -68,6 +70,20 @@
 	private IEnumerable<ProductDTO> Products { get; set; } = new List<ProductDTO>();
 	private bool IsLoading { get; set; }
 	private int DeleteProductId { get; set; } = 0;
+
+	[CascadingParameter]
+	public Task<AuthenticationState> AuthenticationState { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await AuthenticationState;
+		if (!authState.User.Identity.IsAuthenticated)
+		{
+			var uri = new Uri(_navigationManager.Uri);
+			_navigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}", forceLoad: true); // go directly to login page if not logged in
+		}
+	}
+
 
 	protected override async Task OnAfterRenderAsync(bool firstRender) // if we use on initialized, there will be some delay in that case
 	{
